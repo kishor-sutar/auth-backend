@@ -271,7 +271,7 @@ router.post("/refresh", async (req, res) => {
                 message: "Refresh token revoked"
             });
         }
-        
+
         const newRefreshToken = jwt.sign(
             { id: user._id },
             process.env.JWT_REFRESH_SECRET,
@@ -318,22 +318,57 @@ router.post("/refresh", async (req, res) => {
     }
 });
 
-router.get("/google" ,passport.authenticate("google",{scope:["profile" , "email"]}));
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 
 router.get(
     "/google/callback",
-    passport.authenticate("google",{
-        session:false,
-        failureRedirect:"/login"
+    passport.authenticate("google", {
+        session: false,
+        failureRedirect: "/login"
     }),
 
-    (req,res)=>{
-        res.json({
-            message:"google login success",
-            user:req.user
+    async(req, res) => {
+        const user = await User.findById(req.user._id);
+
+        const accessToken = jwt.sign(
+            {
+                id: user._id,
+                role: user.role
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: process.env.JWT_EXPIRES_IN
+            }
+        );
+
+        const refreshToken = jwt.sign(
+            { id: user._id },
+            process.env.JWT_REFRESH_SECRET,
+            { expiresIn: "7d" }
+        );
+
+        user.refreshToken = refreshToken;
+        await user.save();
+
+        res.cookie("token", accessToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 15 * 60 * 1000
         });
+
+        res.cookie("refreshToken", refreshToken, {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            maxAge: 7 * 24 * 60 * 60 * 1000
+        });
+
+        // redirect to frontend
+        res.redirect("http://localhost:5000/api/auth/profile");
     }
+
 );
 
 
