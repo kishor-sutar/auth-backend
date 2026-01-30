@@ -5,6 +5,8 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const passport = require("./config/passport");
+
 
 const app = express();
 
@@ -14,6 +16,8 @@ app.use(cors({
 }));
 
 app.use(cookieParser());
+app.use(passport.initialize());
+
 app.use(express.json());
 
 connectDB();

@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const authorize = require("../middleware/roleMiddleware");
 const protect = require("../middleware/authMiddleware");
+const passport = require("passport");
 
 const router = express.Router();
 
@@ -316,6 +317,26 @@ router.post("/refresh", async (req, res) => {
         });
     }
 });
+
+router.get("/google" ,passport.authenticate("google",{scope:["profile" , "email"]}));
+
+
+router.get(
+    "/google/callback",
+    passport.authenticate("google",{
+        session:false,
+        failureRedirect:"/login"
+    }),
+
+    (req,res)=>{
+        res.json({
+            message:"google login success",
+            user:req.user
+        });
+    }
+);
+
+
 
 module.exports = router;
 
