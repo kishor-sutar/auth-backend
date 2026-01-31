@@ -422,6 +422,19 @@ router.post("/refresh", async (req, res) => {
     }
 });
 
+
+/**
+ * @swagger
+ * /api/auth/google:
+ *   get:
+ *     summary: Login with Google OAuth
+ *     tags: [Auth]
+ *     description: Redirects user to Google login page
+ *     responses:
+ *       302:
+ *         description: Redirect to Google OAuth
+ */
+
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 
