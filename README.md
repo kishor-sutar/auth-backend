@@ -59,7 +59,7 @@ This project is designed to reflect **industry authentication architecture**, no
 ---
 
 ## 📁 Project Structure
-
+```
 auth-backend/
 │
 ├── config/
@@ -81,7 +81,7 @@ auth-backend/
 ├── .gitignore
 ├── index.js
 └── package.json
-
+```
 
 
 
