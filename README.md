@@ -140,9 +140,33 @@ http://localhost:5000
 ## API Documentation (swagger)
 
 ### swagger UI available at :
-     ```
-     http://localhost:5000/api-docs
-  ```
+
+```
+http://localhost:5000/api-docs
+```
+
+
+### API end Points 
+
+```
+| Method | Endpoint                    | Description          |
+| ------ | --------------------------- | -------------------- |
+| POST   | `/api/auth/register`        | Register user        |
+| POST   | `/api/auth/login`           | Login user           |
+| POST   | `/api/auth/logout`          | Logout user          |
+| GET    | `/api/auth/profile`         | Get logged-in user   |
+| POST   | `/api/auth/refresh`         | Refresh access token |
+| GET    | `/api/auth/google`          | Google OAuth login   |
+| GET    | `/api/auth/google/callback` | OAuth callback       |
+
+```
+### Proteected Routes
+
+```
+GET /api/auth/profile
+Returns 401 Unauthorized if user is not authenticated.
+```
+
 
 
 
