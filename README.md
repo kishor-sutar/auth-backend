@@ -118,6 +118,26 @@ GOOGLE_CLIENT_SECRET=your_google_client_secret
 
 SUPER_ADMIN_EMAIL=admin@system.com
 
+## ▶️ Getting Started
+### Install dependencies
+
+```bash
+npm install
+
+### start the server
+
+```bash
+node index.js
+
+### Server runs at:
+http://localhost:5000
+
+
+## API Documentation (swagger)
+
+### swagger UI available at : http://localhost:5000/api-docs
+
+
 
 
 
