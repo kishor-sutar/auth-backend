@@ -222,6 +222,17 @@ router.post("/login", async (req, res) => {
 
 });
 
+/**
+ * @swagger
+ * /api/auth/logout:
+ *   post:
+ *     summary: Logout user and clear authentication cookies
+ *     tags: [Auth]
+ *     responses:
+ *       200:
+ *         description: Logged out successfully
+ */
+
 router.post("/logout", (req, res) => {
     res.clearCookie("token", {
         httpOnly: true,
@@ -244,6 +255,22 @@ router.get("/profile", protect, (req, res) => {
     });
 });
 */
+
+/**
+ * @swagger
+ * /api/auth/profile:
+ *   get:
+ *     summary: Get logged-in user profile
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: User profile fetched successfully
+ *       401:
+ *         description: Not authorized
+ */
+
 router.get("/profile", protect, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select("-password -refreshToken");
@@ -303,6 +330,20 @@ router.put(
     }
 );
 
+/**
+ * @swagger
+ * /api/auth/refresh:
+ *   post:
+ *     summary: Refresh access token using refresh token cookie
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Access token refreshed successfully
+ *       401:
+ *         description: Refresh token invalid or expired
+ */
 
 router.post("/refresh", async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
