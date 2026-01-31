@@ -437,6 +437,17 @@ router.post("/refresh", async (req, res) => {
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
+/**
+ * @swagger
+ * /api/auth/google/callback:
+ *   get:
+ *     summary: Google OAuth callback
+ *     tags: [Auth]
+ *     description: Handles Google login and issues JWT cookies
+ *     responses:
+ *       302:
+ *         description: Redirect to frontend after successful login
+ */
 
 router.get(
     "/google/callback",
