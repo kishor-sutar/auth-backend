@@ -10,9 +10,9 @@ const options = {
         },
         servers: [
             {
-                // This ensures "Try it out" works on your live site
-                url: "http://localhost:5000",
-                description: "Production Server"
+              url: process.env.NODE_ENV === "production"
+                ? "https://auth-backend-phi-dun.vercel.app"
+                : "http://localhost:5000"
             }
             
         ],
