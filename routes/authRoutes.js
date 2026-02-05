@@ -291,7 +291,30 @@ router.get("/profile", protect, async (req, res) => {
 
 
 
-
+/**
+ * @swagger
+ * /api/auth/admin:
+ *   get:
+ *     summary: Admin-only endpoint
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     responses:
+ *       200:
+ *         description: Admin access granted
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Welcome admin
+ *       401:
+ *         description: Not authenticated
+ *       403:
+ *         description: Access denied – requires admin role
+ */
 router.get("/admin", protect, authorize(["admin"]), (req, res) => {
     return res.status(200).json({
         message: "Welcome admin"
@@ -300,7 +323,41 @@ router.get("/admin", protect, authorize(["admin"]), (req, res) => {
 
 
 //  create promotion route (super -admin only)
-
+/**
+ * @swagger
+ * /api/auth/promote/{userId}:
+ *   put:
+ *     summary: Promote a user to admin (Super-Admin only)
+ *     tags: [Auth]
+ *     security:
+ *       - cookieAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: userId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: MongoDB ID of the user to promote
+ *     responses:
+ *       200:
+ *         description: User promoted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: User promoted to admin
+ *       401:
+ *         description: Not authenticated
+ *       403:
+ *         description: Access denied – requires super-admin role
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Server error
+ */
 router.put(
     "/promote/:userId",
     protect,
@@ -494,7 +551,7 @@ router.get(
         });
 
         // redirect to frontend
-        res.redirect("http://localhost:5000/api/auth/profile");
+        res.redirect("https://auth-backend-phi-dun.vercel.app/api/auth/profile");
     }
 
 );
