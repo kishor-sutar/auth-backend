@@ -11,7 +11,7 @@ const options = {
         servers: [
             {
                 // This ensures "Try it out" works on your live site
-                url: "https://auth-backend-phi-dun.vercel.app",
+                url: "http://localhost:5000",
                 description: "Production Server"
             }
             
